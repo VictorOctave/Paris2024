@@ -1,0 +1,43 @@
+{
+    "root": true,
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": { "project": ["./tsconfig.json"] },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "no-console": ["error", { "allow": ["debug", "warn", "error"] }],
+        "@typescript-eslint/no-misused-promises": [
+            "error",
+            {
+                "checksVoidReturn": false
+            }
+        ],
+        "@typescript-eslint/no-empty-function": [
+            "error",
+            {
+                "allow": [
+                    "constructors",
+                    "arrowFunctions"
+                ]
+            }
+        ],
+        "no-async-promise-executor": [
+            "off"
+        ],
+        "prefer-const": ["error", {
+            "destructuring": "any",
+            "ignoreReadBeforeAssign": true
+        }]
+    },
+    "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*", "assets/js/dsfr.module.js", "assets/js/dsfr.nomodule.js", "assets/backup-custom-datatable/**"],
+    "overrides": [
+        {
+            "files": [ "assets/**/*.ts" ]
+        }
+    ]
+}

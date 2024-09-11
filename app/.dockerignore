@@ -1,0 +1,5 @@
+var/
+vendor/
+tests/
+coverage/
+node_modules/

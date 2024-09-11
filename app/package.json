@@ -1,0 +1,48 @@
+{
+    "devDependencies": {
+        "@babel/core": "^7.17.0",
+        "@babel/preset-env": "^7.16.0",
+        "@babel/preset-typescript": "^7.24.7",
+        "@eslint/js": "^9.10.0",
+        "@hotwired/stimulus": "^3.2.2",
+        "@hotwired/turbo": "^8.0.5",
+        "@symfony/stimulus-bridge": "^3.2.2",
+        "@symfony/ux-live-component": "file:vendor/symfony/ux-live-component/assets",
+        "@symfony/webpack-encore": "^4.0.0",
+        "@typescript-eslint/eslint-plugin": "^5.59.2",
+        "@typescript-eslint/parser": "^5.59.2",
+        "core-js": "^3.23.0",
+        "eslint": "^8.39.0",
+        "fork-ts-checker-webpack-plugin": "^9.0.2",
+        "globals": "^15.9.0",
+        "postcss-loader": "^8.1.1",
+        "prettier": "^3.3.3",
+        "regenerator-runtime": "^0.13.9",
+        "sass": "^1.78.0",
+        "sass-loader": "^14.0.0",
+        "stylelint": "^16.9.0",
+        "stylelint-config-standard-scss": "^13.1.0",
+        "ts-loader": "^9.5.1",
+        "typescript": "~5.1.6",
+        "webpack": "^5.74.0",
+        "webpack-cli": "^4.10.0",
+        "webpack-notifier": "^1.15.0"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress",
+        "lint": "eslint assets",
+        "lint:fix": "eslint assets --fix=true",
+        "lint:scss": "npx stylelint --fix 'assets/styles/**/*.scss'",
+        "prettier:check": "prettier --check assets",
+        "prettier:fix": "prettier --write assets"
+    },
+    "dependencies": {
+        "stimulus": "^3.2.2",
+        "uuid": "^10.0.0"
+    }
+}

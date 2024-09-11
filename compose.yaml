@@ -1,20 +1,56 @@
+version: '3.4'
 
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-16}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+  httpd:
+    build:
+      context: ./app/public
+      dockerfile: ../../docker/httpd/Dockerfile
+    ports:
+      - '80:80'
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - ./app/public:/var/www/html/public
+      - ./docker/httpd/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./docker/httpd/conf/vhost.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
+    working_dir: /var/www/html
+
+  phpfpm:
+    build:
+      context: ./app
+      dockerfile: ../docker/phpfpm/Dockerfile
+    depends_on:
+      - db
+    volumes:
+      - ./app:/var/www/html/
+      - ./docker/phpfpm/conf/php.ini:/usr/local/etc/php/conf.d/99-php.ini
+      - ./docker/phpfpm/conf/dev.ini:/usr/local/etc/php/conf.d/99-dev.ini
+      - ./docker/phpfpm/conf/xdebug.ini:/usr/local/etc/php/conf.d/99-xdebug.ini
+    environment:
+      - APP_ENV=dev
+
+  db:
+    image: mysql:8.0
+    ports:
+      - '33061:3306'
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_USER: 'paris2024'
+      MYSQL_PASSWORD: 'paris2024'
+      MYSQL_DATABASE: 'paris2024'
+
+  webpack:
+    build:
+      context: ./app
+      dockerfile: ../docker/webpack/Dockerfile
+    volumes:
+      - ./app:/usr/app/
+    working_dir: /usr/app
+
+  mail:
+    image: schickling/mailcatcher
+    ports:
+      - "1080:1080"
 
 volumes:
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
+  db_data:
